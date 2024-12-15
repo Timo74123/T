@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,11 +12,52 @@
             height: 100vh;
         }
     </style>
+    <link rel="manifest" href="/manifest.json">
 </head>
+
 <body>
-    <div id="map"></div>
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script src="js/main.js"></script>
-    <link rel="manifest" href="manifest.webmanifest">
-</body>
+    <h1 id="hello-message">Loading...</h1>
+    <script>
+        // URL de l'API (vous pouvez remplacer cette URL par celle de votre API)
+        const apiUrl = "/data/helloworld.json";
+
+        // Fonction pour récupérer les données de l'API
+        function fetchData() {
+            fetch(apiUrl)
+                .then(response => {
+                    // Vérifie si la réponse est correcte (statut 200-299)
+                    if (!response.ok) {
+                        throw new Error('Erreur réseau');
+                    }
+                    // Convertit la réponse en JSON
+                    return response.json();
+                })
+                .then(data => {
+                    // Traiter les données reçues
+                    console.log(data);
+                    displayData(data);
+                })
+                .catch(error => {
+                    console.error('Erreur lors de la récupération des données:', error);
+                });
+        }
+
+        // Fonction pour afficher les données dans le DOM
+        function displayData(data) {
+            const dataContainer = document.querySelector('#hello-message');
+
+            // Sélectionner un élément aléatoire du tableau
+            const randomIndex = Math.floor(Math.random() * data.length);
+            const randomLanguage = data[randomIndex];
+
+            // Afficher le message "Hello World" dans une langue au hasard
+            dataContainer.textContent = `${randomLanguage[0]}: ${randomLanguage[1]}`;
+        }
+
+        // Appel de la fonction fetchData pour récupérer les données au chargement de la page
+        fetchData();
+
+    </script>
+    
+
 </html>
