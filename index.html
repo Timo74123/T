@@ -18,6 +18,18 @@
 <body>
     <h1 id="hello-message">Loading...</h1>
     <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function () {
+                navigator.serviceWorker.register('/service-worker.js').then(function (registration) {
+                    console.log('ServiceWorker registration successful with scope: ', registration.scope);
+                }, function (error) {
+                    console.log('ServiceWorker registration failed: ', error);
+                });
+            });
+        }
+    </script>
+
+    <script>
         // URL de l'API (vous pouvez remplacer cette URL par celle de votre API)
         const apiUrl = "/data/helloworld.json";
 
@@ -58,6 +70,6 @@
         fetchData();
 
     </script>
-    
+
 
 </html>
